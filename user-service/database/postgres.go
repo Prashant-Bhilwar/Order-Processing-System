@@ -18,7 +18,7 @@ func InitPostgres() {
 	}
 
 	var err error
-	DB, err := sql.Open("postgres", dbURL)
+	DB, err = sql.Open("postgres", dbURL)
 	if err != nil {
 		log.Fatalf("Postgres connection error: %v", err)
 	}
