@@ -4,6 +4,8 @@ import (
 	"user-service/database"
 	"user-service/handler"
 
+	"user-service/middleware"
+
 	"github.com/gin-gonic/gin"
 
 	_ "user-service/docs"
@@ -28,6 +30,10 @@ func main() {
 	r.POST("/register", authHandler.Register)
 	r.POST("/login", authHandler.Login)
 	r.POST("/refresh", authHandler.Refresh)
+
+	authorized := r.Group("/")
+	authorized.Use(middleware.AuthMiddleware())
+	authorized.GET("/me", handler.GetCurrentUser)
 
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
