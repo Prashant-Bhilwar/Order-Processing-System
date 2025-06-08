@@ -17,6 +17,7 @@ func main() {
 	r.GET("/health", handler.HealthCheck)
 	r.POST("/register", authHandler.Register)
 	r.POST("/login", authHandler.Login)
+	r.POST("/refresh", authHandler.Refresh)
 
 	r.Run(":8081")
 }
