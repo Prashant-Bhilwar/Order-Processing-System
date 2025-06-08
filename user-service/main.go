@@ -2,8 +2,9 @@ package main
 
 import (
 	"user-service/database"
-	"user-service/handler"
+	"user-service/redis"
 
+	"user-service/handler"
 	"user-service/middleware"
 
 	"github.com/gin-gonic/gin"
@@ -23,6 +24,7 @@ func main() {
 	r := gin.Default()
 
 	database.InitPostgres()
+	redis.InitRedis()
 
 	authHandler := handler.NewAuthHandler(database.DB)
 

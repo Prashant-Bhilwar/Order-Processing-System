@@ -2,9 +2,12 @@ package handler
 
 import (
 	"database/sql"
+	"fmt"
 	"net/http"
+	"time"
 
 	"user-service/model"
+	rdb "user-service/redis"
 	"user-service/repository"
 	"user-service/token"
 
@@ -70,6 +73,9 @@ func (h *AuthHandler) Login(c *gin.Context) {
 	accessToken, _ := token.GenerateAccessToken(user.ID)
 	refreshToken, _ := token.GenerateRefreshToken(user.ID)
 
+	key := fmt.Sprintf("refresh:%d", user.ID)
+	rdb.Rdb.Set(rdb.Ctx, key, refreshToken, 7*24*time.Hour)
+
 	c.JSON(http.StatusOK, gin.H{
 		"message":       "login successful",
 		"access_token":  accessToken,
@@ -98,6 +104,13 @@ func (h *AuthHandler) Refresh(c *gin.Context) {
 	claims, err := token.ParseToken(body.RefreshToken)
 	if err != nil {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "invalid or expired refresh token"})
+		return
+	}
+
+	key := fmt.Sprintf("refresh:%d", claims.UserID)
+	storedToken, err := rdb.Rdb.Get(rdb.Ctx, key).Result()
+	if err != nil || storedToken != body.RefreshToken {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "refresh token not recognized"})
 		return
 	}
 
