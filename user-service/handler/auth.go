@@ -84,6 +84,7 @@ func (h *AuthHandler) Login(c *gin.Context) {
 }
 
 // @Summary Refresh access token
+// @Description Accepts refresh token and returns new access & refresh token
 // @Tags Auth
 // @Accept json
 // @Produce json
@@ -114,10 +115,19 @@ func (h *AuthHandler) Refresh(c *gin.Context) {
 		return
 	}
 
-	accessToken, _ := token.GenerateRefreshToken(claims.UserID)
+	// Invalidate the old refresh token
+	_ = rdb.Rdb.Del(rdb.Ctx, key).Err()
+
+	// Generate new access & refresh tokens
+	newAccessToken, _ := token.GenerateRefreshToken(claims.UserID)
+	newRefreshToken, _ := token.GenerateRefreshToken(claims.UserID)
+
+	// Store new refresh token in Redis
+	_ = rdb.Rdb.Set(rdb.Ctx, key, newRefreshToken, 7*24*time.Hour).Err()
 
 	c.JSON(http.StatusOK, gin.H{
-		"access_token": accessToken,
+		"access_token":  newAccessToken,
+		"refresh_token": newRefreshToken,
 	})
 }
 

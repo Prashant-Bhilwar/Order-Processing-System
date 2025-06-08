@@ -108,6 +108,7 @@ const docTemplate = `{
         },
         "/refresh": {
             "post": {
+                "description": "Accepts refresh token and returns new access \u0026 refresh token",
                 "consumes": [
                     "application/json"
                 ],

@@ -78,6 +78,7 @@ paths:
     post:
       consumes:
       - application/json
+      description: Accepts refresh token and returns new access & refresh token
       parameters:
       - description: Refresh token input
         in: body
