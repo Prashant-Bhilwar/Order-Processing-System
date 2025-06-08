@@ -20,6 +20,14 @@ func NewAuthHandler(db *sql.DB) *AuthHandler {
 	return &AuthHandler{UserRepo: repository.NewUserRepo(db)}
 }
 
+// @Summary Register a new user
+// @Tags Auth
+// @Accept json
+// @Produce json
+// @param user body model.User true "User registration input"
+// @Success 201 {object} map[string]interface{}
+// @Failure 400 {object} map[string]string
+// @Router /register [post]
 func (h *AuthHandler) Register(c *gin.Context) {
 	var input model.User
 	if err := c.ShouldBindJSON(&input); err != nil {
@@ -38,6 +46,14 @@ func (h *AuthHandler) Register(c *gin.Context) {
 	c.JSON(http.StatusCreated, gin.H{"id": input.ID, "email": input.Email})
 }
 
+// @Summary Login user and return JWT tokens
+// @Tags Auth
+// @Accept json
+// @Produce json
+// @Param user body model.User true "User login input"
+// @Success 200 {object} map[string]string
+// @Failure 401 {object} map[string]string
+// @Router /login [post]
 func (h *AuthHandler) Login(c *gin.Context) {
 	var input model.User
 	if err := c.ShouldBindJSON(&input); err != nil {
@@ -61,6 +77,14 @@ func (h *AuthHandler) Login(c *gin.Context) {
 	})
 }
 
+// @Summary Refresh access token
+// @Tags Auth
+// @Accept json
+// @Produce json
+// @Param token body map[string]string true "Refresh token input"
+// @Success 200 {object} map[string]string
+// @Failure 401 {object} map[string]string
+// @Router /refresh [post]
 func (h *AuthHandler) Refresh(c *gin.Context) {
 	var body struct {
 		RefreshToken string `json:"refresh_token"`
