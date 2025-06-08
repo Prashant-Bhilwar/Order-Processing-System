@@ -120,3 +120,28 @@ func (h *AuthHandler) Refresh(c *gin.Context) {
 		"access_token": accessToken,
 	})
 }
+
+// @Summary Logout user
+// @Description Revoke refresh token from Redis and end the session
+// @Tags Auth
+// @Security BearerAuth
+// @Produce json
+// @Success 200 {object} map[string]string
+// @Failure 401 {object} map[string]string
+// @Failure 500 {object} map[string]string
+// @Router /logout [post]
+func (h *AuthHandler) Logout(c *gin.Context) {
+	userID, exists := c.Get("userID")
+	if !exists {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
+		return
+	}
+	key := fmt.Sprintf("refresh:%d", userID)
+	err := rdb.Rdb.Del(rdb.Ctx, key).Err()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to revoke token"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "logout successful"})
+}

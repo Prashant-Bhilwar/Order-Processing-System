@@ -18,6 +18,9 @@ import (
 // @title User Service API
 // @version 1.0
 // @description This service handles user registration, login, and JWT auth
+// @securityDefinitions.apiKey BearerAuth
+// @in header
+// @name Authorization
 // @host localhost:8081
 // @BasePath /
 func main() {
@@ -36,6 +39,7 @@ func main() {
 	authorized := r.Group("/")
 	authorized.Use(middleware.AuthMiddleware())
 	authorized.GET("/me", handler.GetCurrentUser)
+	authorized.POST("/logout", authHandler.Logout)
 
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 

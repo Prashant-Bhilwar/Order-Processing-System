@@ -1,4 +1,3 @@
-basePath: /
 definitions:
   model.User:
     properties:
@@ -11,7 +10,6 @@ definitions:
       username:
         type: string
     type: object
-host: localhost:8081
 info:
   contact: {}
   description: This service handles user registration, login, and JWT auth
@@ -45,6 +43,35 @@ paths:
               type: string
             type: object
       summary: Login user and return JWT tokens
+      tags:
+      - Auth
+  /logout:
+    post:
+      description: Revoke refresh token from Redis and end the session
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Logout user
       tags:
       - Auth
   /refresh:
@@ -106,4 +133,9 @@ paths:
       summary: Register a new user
       tags:
       - Auth
+securityDefinitions:
+  BearerAuth:
+    in: header
+    name: Authorization
+    type: apiKey
 swagger: "2.0"
