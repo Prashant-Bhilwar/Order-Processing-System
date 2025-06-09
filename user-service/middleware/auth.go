@@ -3,6 +3,7 @@ package middleware
 import (
 	"net/http"
 	"strings"
+
 	"user-service/token"
 
 	"github.com/gin-gonic/gin"

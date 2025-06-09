@@ -1,6 +1,7 @@
 package main
 
 import (
+	"user-service/config"
 	"user-service/database"
 	"user-service/redis"
 
@@ -26,6 +27,7 @@ import (
 func main() {
 	r := gin.Default()
 
+	config.LoadConfig()
 	database.InitPostgres()
 	redis.InitRedis()
 

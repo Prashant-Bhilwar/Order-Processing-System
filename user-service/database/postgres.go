@@ -4,7 +4,8 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
-	"os"
+
+	"user-service/config"
 
 	_ "github.com/lib/pq"
 )
@@ -12,7 +13,7 @@ import (
 var DB *sql.DB
 
 func InitPostgres() {
-	dbURL := os.Getenv("DB_URL")
+	dbURL := config.AppConfig.DBUrl
 	if dbURL == "" {
 		dbURL = "postgres://user:password@localhost:5432/orderdb?sslmode=disable"
 	}

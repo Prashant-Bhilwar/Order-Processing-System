@@ -3,10 +3,12 @@ package token
 import (
 	"time"
 
+	"user-service/config"
+
 	"github.com/golang-jwt/jwt/v5"
 )
 
-var jwtSecret = []byte("mysecret")
+var jwtSecret = []byte(config.AppConfig.JWTSecret)
 
 type Claims struct {
 	UserID int64 `json:"user_id"`
