@@ -3,7 +3,7 @@ package token
 import (
 	"time"
 
-	"user-service/config"
+	"github.com/prashant-bhilwar/order-processing-system/user-service/config"
 
 	"github.com/golang-jwt/jwt/v5"
 )

@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"log"
 
-	"user-service/config"
+	"github.com/prashant-bhilwar/order-processing-system/user-service/config"
 
 	_ "github.com/lib/pq"
 )

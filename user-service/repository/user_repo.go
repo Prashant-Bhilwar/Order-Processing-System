@@ -2,7 +2,8 @@ package repository
 
 import (
 	"database/sql"
-	"user-service/model"
+
+	"github.com/prashant-bhilwar/order-processing-system/user-service/model"
 )
 
 type UserRepository struct {

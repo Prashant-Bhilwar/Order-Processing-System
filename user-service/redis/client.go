@@ -3,7 +3,7 @@ package redis
 import (
 	"context"
 
-	"user-service/config"
+	"github.com/prashant-bhilwar/order-processing-system/user-service/config"
 
 	"github.com/redis/go-redis/v9"
 )

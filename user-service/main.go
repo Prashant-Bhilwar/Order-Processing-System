@@ -1,16 +1,16 @@
 package main
 
 import (
-	"user-service/config"
-	"user-service/database"
-	"user-service/redis"
+	"github.com/prashant-bhilwar/order-processing-system/user-service/config"
+	"github.com/prashant-bhilwar/order-processing-system/user-service/database"
+	"github.com/prashant-bhilwar/order-processing-system/user-service/redis"
 
-	"user-service/handler"
-	"user-service/middleware"
+	"github.com/prashant-bhilwar/order-processing-system/user-service/handler"
+	"github.com/prashant-bhilwar/order-processing-system/user-service/middleware"
 
 	"github.com/gin-gonic/gin"
 
-	_ "user-service/docs"
+	_ "github.com/prashant-bhilwar/order-processing-system/user-service/docs"
 
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"

@@ -6,10 +6,10 @@ import (
 	"net/http"
 	"time"
 
-	"user-service/model"
-	rdb "user-service/redis"
-	"user-service/repository"
-	"user-service/token"
+	"github.com/prashant-bhilwar/order-processing-system/user-service/model"
+	rdb "github.com/prashant-bhilwar/order-processing-system/user-service/redis"
+	"github.com/prashant-bhilwar/order-processing-system/user-service/repository"
+	"github.com/prashant-bhilwar/order-processing-system/user-service/token"
 
 	"github.com/gin-gonic/gin"
 	"golang.org/x/crypto/bcrypt"

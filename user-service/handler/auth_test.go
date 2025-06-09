@@ -7,9 +7,10 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"time"
-	"user-service/database"
-	"user-service/model"
-	"user-service/redis"
+
+	"github.com/prashant-bhilwar/order-processing-system/user-service/database"
+	"github.com/prashant-bhilwar/order-processing-system/user-service/model"
+	"github.com/prashant-bhilwar/order-processing-system/user-service/redis"
 
 	"testing"
 

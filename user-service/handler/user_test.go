@@ -4,8 +4,9 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"testing"
-	"user-service/middleware"
-	"user-service/token"
+
+	"github.com/prashant-bhilwar/order-processing-system/user-service/middleware"
+	"github.com/prashant-bhilwar/order-processing-system/user-service/token"
 
 	"github.com/gin-gonic/gin"
 )
