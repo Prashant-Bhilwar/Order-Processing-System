@@ -1,0 +1,116 @@
+basePath: /
+definitions:
+  model.CartItem:
+    properties:
+      id:
+        type: integer
+      product_id:
+        type: integer
+      quantity:
+        type: integer
+      useer_id:
+        type: integer
+    type: object
+host: localhost:8083
+info:
+  contact: {}
+  description: API for managing user cart operations
+  title: Cart Service API
+  version: "1.0"
+paths:
+  /cart:
+    post:
+      consumes:
+      - application/json
+      description: Adds a product to user's cart
+      parameters:
+      - description: Cart item
+        in: body
+        name: item
+        required: true
+        schema:
+          $ref: '#/definitions/model.CartItem'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/model.CartItem'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Add item to cart
+      tags:
+      - Cart
+  /cart/{userId}/{productId}:
+    delete:
+      description: Removes a specific product from user's cart
+      parameters:
+      - description: User ID
+        in: path
+        name: userId
+        required: true
+        type: integer
+      - description: Product ID
+        in: path
+        name: productId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Remove item from cart
+      tags:
+      - Cart
+  /cart/{userid}:
+    get:
+      description: Fetch all cart items for a given user
+      parameters:
+      - description: User ID
+        in: path
+        name: userId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.CartItem'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get user's cart
+      tags:
+      - Cart
+schemes:
+- http
+swagger: "2.0"
