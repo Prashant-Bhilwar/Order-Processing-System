@@ -5,6 +5,7 @@ import (
 	"log"
 
 	"github.com/prashant-bhilwar/order-processing-system/cart-service/config"
+	"github.com/prashant-bhilwar/order-processing-system/cart-service/model"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -32,4 +33,10 @@ func InitPostgres() {
 	}
 
 	fmt.Println("PostgreSQL connected")
+
+	err = DB.AutoMigrate(&model.CartItem{})
+	if err != nil {
+		log.Fatalf("failed to migrate CartItem: %v", err)
+	}
+	fmt.Println("CartItem table created")
 }
