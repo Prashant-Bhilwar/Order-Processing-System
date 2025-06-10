@@ -23,5 +23,21 @@ func InitPostgres() {
 		log.Fatalf("Postgres ping failed: %v", err)
 	}
 
-	fmt.Printf("Postgres connected")
+	fmt.Println("Postgres connected")
+
+	createTable := `
+	CREATE TABLE IF NOT EXISTS products (
+	id SERIAL PRIMARY KEY,
+	name TEXT NOT NULL,
+	description TEXT,
+	price REAL NOT NULL,
+	in_stock BOOLEAN NOT NULL DEFAULT true
+	);`
+
+	_, err = DB.Exec(createTable)
+	if err != nil {
+		log.Fatalf("Failed to create products table: %v", err)
+	}
+
+	fmt.Println("Products table checked/created")
 }
