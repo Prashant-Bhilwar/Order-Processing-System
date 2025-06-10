@@ -1,14 +1,18 @@
 package main
 
 import (
-	"fmt"
-
+	"github.com/gin-gonic/gin"
 	"github.com/prashant-bhilwar/order-processing-system/cart-service/config"
 	"github.com/prashant-bhilwar/order-processing-system/cart-service/database"
+	"github.com/prashant-bhilwar/order-processing-system/cart-service/routes"
 )
 
 func main() {
 	config.LoadConfig()
-	fmt.Println("Cart service started")
 	database.InitPostgres()
+
+	r := gin.Default()
+	routes.SetupRoutes(r)
+
+	r.Run(":8083")
 }
