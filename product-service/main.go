@@ -1,7 +1,11 @@
 package main
 
-import "fmt"
+import (
+	"github.com/prashant-bhilwar/order-processing-system/product-service/config"
+	"github.com/prashant-bhilwar/order-processing-system/product-service/database"
+)
 
 func main() {
-	fmt.Println("Product service started...")
+	config.LoadConfig()
+	database.InitPostgres()
 }
