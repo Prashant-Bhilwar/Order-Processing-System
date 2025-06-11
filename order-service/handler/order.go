@@ -2,6 +2,7 @@ package handler
 
 import (
 	"context"
+	"encoding/json"
 	"net/http"
 	"strconv"
 	"time"
@@ -9,7 +10,9 @@ import (
 	"github.com/prashant-bhilwar/order-processing-system/order-service/gen"
 	"github.com/prashant-bhilwar/order-processing-system/order-service/grpc"
 	"github.com/prashant-bhilwar/order-processing-system/order-service/model"
+	"github.com/prashant-bhilwar/order-processing-system/order-service/mq"
 	"github.com/prashant-bhilwar/order-processing-system/order-service/repository"
+	"github.com/rabbitmq/amqp091-go"
 
 	"github.com/gin-gonic/gin"
 )
@@ -48,6 +51,12 @@ func CreateOrder(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to create order"})
 		return
 	}
+
+	eventData, _ := json.Marshal(order)
+	mq.Channel.PublishWithContext(c, "", "order_events", false, false, amqp091.Publishing{
+		ContentType: "application/json",
+		Body:        eventData,
+	})
 
 	c.JSON(http.StatusCreated, order)
 }
