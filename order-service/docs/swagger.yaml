@@ -1,0 +1,85 @@
+basePath: /
+definitions:
+  model.Order:
+    properties:
+      created_at:
+        type: string
+      id:
+        type: integer
+      status:
+        description: pending, confirmed, cancelled
+        type: string
+      total_price:
+        type: number
+      user_id:
+        type: integer
+    type: object
+host: localhost:8084
+info:
+  contact: {}
+  description: REST API for order placement and retrieval
+  title: Order Service API
+  version: "1.0"
+paths:
+  /orders:
+    post:
+      consumes:
+      - application/json
+      description: Place a new order for a user
+      parameters:
+      - description: order payload
+        in: body
+        name: order
+        required: true
+        schema:
+          $ref: '#/definitions/model.Order'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/model.Order'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Create a new order
+      tags:
+      - Orders
+  /orders/{userId}:
+    get:
+      description: Retrieve all orders placed by a specific user
+      parameters:
+      - description: User ID
+        in: path
+        name: userId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.Order'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get all orders by user
+      tags:
+      - Orders
+swagger: "2.0"
