@@ -1,10 +1,13 @@
 package handler
 
 import (
+	"context"
 	"net/http"
 	"strconv"
 	"time"
 
+	"github.com/prashant-bhilwar/order-processing-system/order-service/gen"
+	"github.com/prashant-bhilwar/order-processing-system/order-service/grpc"
 	"github.com/prashant-bhilwar/order-processing-system/order-service/model"
 	"github.com/prashant-bhilwar/order-processing-system/order-service/repository"
 
@@ -30,6 +33,16 @@ func CreateOrder(c *gin.Context) {
 
 	order.Status = "pending"
 	order.CreatedAt = time.Now()
+
+	product, err := grpc.ProductClient.GetProductById(context.Background(), &gen.ProductId{
+		Id: int32(order.UserID),
+	})
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to get product"})
+		return
+	}
+
+	order.TotalPrice = float64(product.Price)
 
 	if err := repository.CreateOrder(&order); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to create order"})

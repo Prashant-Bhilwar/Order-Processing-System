@@ -2,6 +2,7 @@ package main
 
 import (
 	_ "github.com/prashant-bhilwar/order-processing-system/order-service/docs"
+	"github.com/prashant-bhilwar/order-processing-system/order-service/grpc"
 
 	"github.com/gin-gonic/gin"
 	"github.com/prashant-bhilwar/order-processing-system/order-service/config"
@@ -19,6 +20,7 @@ import (
 func main() {
 	config.LoadConfig()
 	database.InitPostgres()
+	grpc.InitProductGRPC()
 
 	r := gin.Default()
 	routes.SetupRoutes(r)

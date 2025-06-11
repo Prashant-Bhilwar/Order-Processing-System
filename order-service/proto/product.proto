@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package product;
+
+option go_package = "gen/;gen";
+
+message Empty {}
+
+message Product {
+    int32 id = 1;
+    string name = 2;
+    string description = 3;
+    float price = 4;
+    bool in_stock = 5;
+}
+
+message ProductId {
+    int32 id = 1 ;
+}
+
+message ProductList {
+    repeated Product products = 1;
+}
+
+service ProductService {
+    rpc GetAllProducts(Empty) returns (ProductList);
+    rpc GetProductById(ProductId) returns (Product);
+}
