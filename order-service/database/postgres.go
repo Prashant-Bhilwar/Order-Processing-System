@@ -15,7 +15,7 @@ var DB *gorm.DB
 
 func InitPostgres() {
 	var err error
-	DB, err := gorm.Open(postgres.Open(config.DBUrl), &gorm.Config{})
+	DB, err = gorm.Open(postgres.Open(config.DBUrl), &gorm.Config{})
 	if err != nil {
 		log.Fatalf("Postgres connection error: %v", err)
 	}

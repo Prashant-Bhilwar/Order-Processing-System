@@ -1,14 +1,18 @@
 package main
 
 import (
-	"fmt"
-
+	"github.com/gin-gonic/gin"
 	"github.com/prashant-bhilwar/order-processing-system/order-service/config"
 	"github.com/prashant-bhilwar/order-processing-system/order-service/database"
+	"github.com/prashant-bhilwar/order-processing-system/order-service/routes"
 )
 
 func main() {
 	config.LoadConfig()
 	database.InitPostgres()
-	fmt.Println("Order service started")
+
+	r := gin.Default()
+	routes.SetupRoutes(r)
+
+	r.Run(":8084")
 }
