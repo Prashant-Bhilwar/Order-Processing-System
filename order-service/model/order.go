@@ -8,4 +8,5 @@ type Order struct {
 	TotalPrice float64   `json:"total_price"`
 	Status     string    `json:"status"` // pending, confirmed, cancelled
 	CreatedAt  time.Time `json:"created_at"`
+	ProductID  uint      `json:"product_id"`
 }

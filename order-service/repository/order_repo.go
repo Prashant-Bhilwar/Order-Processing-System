@@ -11,6 +11,6 @@ func CreateOrder(order *model.Order) error {
 
 func GetOrdersByUserID(userID uint) ([]model.Order, error) {
 	var orders []model.Order
-	err := database.DB.Where("user_id = ?", userID).First(&orders).Error
+	err := database.DB.Where("user_id = ?", userID).Find(&orders).Error
 	return orders, err
 }

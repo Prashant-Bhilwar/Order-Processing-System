@@ -1,6 +1,8 @@
 package main
 
 import (
+	"context"
+
 	_ "github.com/prashant-bhilwar/order-processing-system/order-service/docs"
 	"github.com/prashant-bhilwar/order-processing-system/order-service/grpc"
 	"github.com/prashant-bhilwar/order-processing-system/order-service/mq"
@@ -23,6 +25,9 @@ func main() {
 	database.InitPostgres()
 	grpc.InitProductGRPC()
 	mq.InitRabbitMQ()
+
+	ctx := context.Background()
+	mq.StartOrderConsumer(ctx)
 
 	r := gin.Default()
 	routes.SetupRoutes(r)

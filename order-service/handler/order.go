@@ -3,6 +3,7 @@ package handler
 import (
 	"context"
 	"encoding/json"
+	"log"
 	"net/http"
 	"strconv"
 	"time"
@@ -37,10 +38,12 @@ func CreateOrder(c *gin.Context) {
 	order.Status = "pending"
 	order.CreatedAt = time.Now()
 
+	log.Println("Calling product-service with ProductID:", order.ProductID)
 	product, err := grpc.ProductClient.GetProductById(context.Background(), &gen.ProductId{
-		Id: int32(order.UserID),
+		Id: int32(order.ProductID),
 	})
 	if err != nil {
+		log.Println("gRPC error: ", err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to get product"})
 		return
 	}
