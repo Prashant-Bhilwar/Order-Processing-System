@@ -1,6 +1,9 @@
 package repository
 
 import (
+	"database/sql"
+	"errors"
+
 	"github.com/prashant-bhilwar/order-processing-system/product-service/database"
 	"github.com/prashant-bhilwar/order-processing-system/product-service/model"
 )
@@ -31,4 +34,18 @@ func GetAllProducts() ([]model.Product, error) {
 		products = append(products, p)
 	}
 	return products, nil
+}
+
+func GetProductbyID(id int) (*model.Product, error) {
+	query := `SELECT id, name, price FROM products WHERE id = $1`
+	var product model.Product
+	err := database.DB.QueryRow(query, id).Scan(&product.ID, &product.Name, &product.Price)
+	if err == sql.ErrNoRows {
+		return nil, errors.New("product not found")
+	}
+	if err != nil {
+		return nil, err
+	}
+
+	return &product, nil
 }

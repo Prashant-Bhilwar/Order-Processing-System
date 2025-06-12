@@ -29,3 +29,16 @@ func (s *ProductGRPCServer) GetAllProducts(ctx context.Context, _ *gen.Empty) (*
 	}
 	return &gen.ProductList{Products: grpcProducts}, nil
 }
+
+func (s *ProductGRPCServer) GetProductById(ctx context.Context, req *gen.ProductId) (*gen.Product, error) {
+	product, err := repository.GetProductbyID(int(req.Id))
+	if err != nil {
+		return nil, err
+	}
+
+	return &gen.Product{
+		Id:    int32(product.ID),
+		Name:  product.Name,
+		Price: float32(product.Price),
+	}, nil
+}
