@@ -6,6 +6,7 @@ import (
 
 	"github.com/joho/godotenv"
 	"github.com/prashant-bhilwar/order-processing-system/api-gateway/routes"
+	"github.com/prashant-bhilwar/order-processing-system/api-gateway/utils"
 )
 
 func main() {
@@ -14,6 +15,7 @@ func main() {
 		log.Println("No .env file found")
 	}
 
+	utils.InitLogger()
 	router := routes.SetupRouter()
 
 	port := os.Getenv("PORT")
